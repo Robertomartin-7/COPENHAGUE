@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Copenhague - Diciembre 2024</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #2c3e50;
+            overflow-x: hidden;
+        }
+
+        .snowflake {
+            position: fixed;
+            top: -10px;
+            z-index: 9999;
+            color: white;
+            font-size: 1em;
+            opacity: 0.8;
+            animation: fall linear infinite;
+            pointer-events: none;
+        }
+
+        @keyframes fall {
+            to {
+                transform: translateY(100vh) rotate(360deg);
+            }
+        }
+
+        header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        h1 {
+            color: #2c3e50;
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .subtitle {
+            color: #7f8c8d;
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+        }
+
+        .hotel-info {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 0.5rem 1.5rem;
+            border-radius: 25px;
+            display: inline-block;
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .day-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 2.5rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .day-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(90deg, #667eea, #764ba2, #f093fb);
+        }
+
+        .day-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.15);
+        }
+
+        .day-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid #ecf0f1;
+        }
+
+        .day-number {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            width: 60px;
+            height: 60px;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: bold;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .day-title {
+            flex: 1;
+        }
+
+        .day-title h2 {
+            color: #2c3e50;
+            font-size: 1.8rem;
+            margin-bottom: 0.3rem;
+        }
+
+        .day-subtitle {
+            color: #7f8c8d;
+            font-size: 1rem;
+            font-style: italic;
+        }
+
+        .activity {
+            display: flex;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+            padding: 1rem;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            border-radius: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .activity:hover {
+            background: linear-gradient(135deg, #e0c3fc 0%, #8ec5fc 100%);
+            transform: translateX(5px);
+        }
+
+        .time {
+            color: #667eea;
+            font-weight: bold;
+            font-size: 1rem;
+            min-width: 120px;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .time::before {
+            content: '🕐';
+            font-size: 1.2rem;
+        }
+
+        .activity-content {
+            flex: 1;
+        }
+
+        .activity-title {
+            color: #2c3e50;
+            font-weight: 600;
+            margin-bottom: 0.3rem;
+            font-size: 1.1rem;
+        }
+
+        .activity-details {
+            color: #5a6c7d;
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+
+        .icon {
+            margin-right: 0.3rem;
+        }
+
+        footer {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            text-align: center;
+            padding: 2rem;
+            margin-top: 3rem;
+            color: #7f8c8d;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .footer-emoji {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 1.8rem;
+            }
+
+            .day-card {
+                padding: 1.5rem;
+            }
+
+            .activity {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+
+            .time {
+                min-width: auto;
+            }
+
+            .container {
+                padding: 1rem;
+            }
+        }
+
+        .scroll-hint {
+            text-align: center;
+            padding: 1rem;
+            color: white;
+            font-size: 0.9rem;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateY(0);
+            }
+            40% {
+                transform: translateY(-10px);
+            }
+            60% {
+                transform: translateY(-5px);
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>❄️ Viaje a Copenhague 🎄</h1>
+        <div class="subtitle">20 - 24 Diciembre 2024</div>
+        <div class="hotel-info">📍 Go Hotel Østerport (Oslo Plads 5)</div>
+    </header>
+
+    <div class="scroll-hint">👇 Desliza para ver tu itinerario 👇</div>
+
+    <div class="container">
+        <!-- DÍA 1 -->
+        <div class="day-card">
+            <div class="day-header">
+                <div class="day-number">1</div>
+                <div class="day-title">
+                    <h2>Viernes 20 Diciembre</h2>
+                    <div class="day-subtitle">🏙️ Primer contacto y centro histórico</div>
+                </div>
+            </div>
+
+            <div class="activity">
+                <div class="time">11:30 - 12:00</div>
+                <div class="activity-content">
+                    <div class="activity-title">✈️ Llegada y Check-in</div>
+                    <div class="activity-details">Llegada al hotel Go Hotel Østerport, check-in y dejar maletas</div>
+                </div>
+            </div>
+
+            <div class="activity">
+                <div class="time">12:00 - 13:00</div>
+                <div class="activity-content">
+                    <div class="activity-title">⭐ Kastellet</div>
+                    <div class="activity-details">Paseo por la fortaleza en forma de estrella, muy cerca del hotel</div>
+                </div>
+            </div>
+
+            <div class="activity">
+                <div class="time">13:00 - 13:30</div>
+                <div class="activity-content">
+                    <div class="activity-title">🧜‍♀️ La Sirenita</div>
+                    <div class="activity-details">Visita al monumento más famoso de Copenhague (10 min andando)</div>
+                </div>
+            </div>
+
+            <div class="activity">
+                <div class="time">14:00 - 15:00</div>
+                <div class="activity-content">
+                    <div class="activity-title">🍽️ Almuerzo</div>
+                    <div class="activity-details">Café Petersborg o Restaurant Told & Snaps (comida danesa tradicional)</div>
+                </div>
+            </div>
+
+            <div class="activity">
+                <div class="time">15:30 - 17:30</div>
+                <div class="activity-content">
+                    <div class="activity-title">🎨 Nyhavn</div>
+                    <div class="activity-details">Paseo por el puerto colorido más famoso de Copenhague</div>
+                </div>
+            </div>
+
+            <div class="activity">
+                <div class="time">17:30 - 19:30</div>
+                <div class="activity-content">
+                    <div class="activity-title">🎄 Mercadillos de Navidad</div>
+                    <div class="activity-details">Kongens Nytorv y Højbro Plads</div>
+                </div>
+            </div>
+
+            <div class="activity">
+                <div class="time">21:00</div>
+                <div class="activity-content">
+                    <div class="activity-title">🍷 Cena</div>
+                    <div class="activity-details">Restaurant Huks Fluks o Madklubben København</div>
+                </div>
+            </div>
+
+            <div class="activity">
+                <div class="time">21:00 - 22:00</div>
+                <div class="activity-content">
+                    <div class="activity-title">🌙 Paseo nocturno</div>
+                    <div class="activity-details">Paseo por el centro o regreso al hotel</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- DÍA 2 -->
+        <div class="day-card">
+            <div class="day-header">
+                <div class="day-number">2</div>
+                <div class="day-title">
+                    <h2>Sábado 21 Diciembre</h2>
+                    <div class="day-subtitle">🕍 Palacios y canales</div>
+                </div>
+            </div>
+
+            <div class="activity">
+                <div class="time">9:00 - 10:00</div>
+                <div class="activity-content">
+                    <div class="activity-title">☕ Desayuno</div>
+                    <div class="activity-details">Desayuno y paseo hasta Palacio de Amalienborg</div>
+                </div>
+            </div>
+
+            <div class="activity">
+                <div class="time">10:00 - 12:00</div>
+                <div class="activity-content">
+                    <div class="activity-title">⛪ Frederiks Kirke</div>
+                    <div class="activity-details">Visita a la Iglesia de Mármol y alrededores</div>
+                </div>
+            </div>
+
+            <div class="activity">
+                <div class="time">12:00 - 12:30</div>
+                <div class="activity-content">
+                    <div class="activity-title">💂 Cambio de Guardia</div>
+                    <div class="activity-details">Ceremonia en el Palacio de Amalienborg</div>
+                </div>
+            </div>
+
+            <div class="activity">
+                <div class="time">13:00 - 15:00</div>
+                <div class="activity-content">
+                    <div class="activity-title">🍽️ Almuerzo</div>
+                    <div class="activity-details">Café Norden o Apollo Bar</div>
+                </div>
+            </div>
+
+            <div class="activity">
+                <div class="time">15:00 - 17:00</div>
+                <div class="activity-content">
+                    <div class="activity-title">🏰 Castillo de Rosenborg</div>
+                    <div class="activity-details">Visita al castillo y paseo por los jardines Kongens Have</div>
+                </div>
+            </div>
+
+            <div class="activity">
+                <div class="time">17:00 - 19:00</div>
+                <div class="activity-content">
+                    <div class="activity-title">🗼 Rundetaarn y Strøget</div>
+                    <div class="activity-details">Subida a la Torre Redonda y compras por la calle comercial</div>
+                </div>
+            </div>
+
+            <div class="activity">
+                <div class="time">21:00</div>
+                <div class="activity-content">
+                    <div class="activity-title">🍷 Cena</div>
+                    <div class="activity-details">Restaurant Cofoco o Høst (ambiente nórdico moderno)</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- DÍA 3 -->
+        <div class="day-card">
+            <div class="day-header">
+                <div class="day-number">3</div>
+                <div class="day-title">
+                    <h2>Domingo 22 Diciembre</h2>
+                    <div class="day-subtitle">🎢 Cultura y diversión</div>
+                </div>
+            </div>
+
+            <div class="activity">
+                <div class="time">9:00 - 10:00</div>
+                <div class="activity-content">
+                    <div class="activity-title">🚇 Metro</div>
+                    <div class="activity-details">Traslado al Museo Nacional de Dinamarca</div>
+                </div>
+            </div>
+
+            <div class="activity">
+                <div class="time">10:00 - 11:30</div>
+                <div class="activity-content">
+                    <div class="activity-title">🏛️ Museo Nacional</div>
+                    <div class="activity-details">Historia y cultura de Dinamarca</div>
+                </div>
+            </div>
+
+            <div class="activity">
+                <div class="time">11:30 - 13:30</div>
+                <div class="activity-content">
+                    <div class="activity-title">🎨 Diseño o Christiansborg</div>
+                    <div class="activity-details">Museo del Diseño Danés o Palacio del Parlamento</div>
+                </div>
+            </div>
+
+            <div class="activity">
+                <div class="time">14:00 - 15:00</div>
+                <div class="activity-content">
+                    <div class="activity-title">🍽️ Almuerzo</div>
+                    <div class="activity-details">The Bridge Street Kitchen (comida callejera junto al canal)</div>
+                </div>
+            </div>
+
+            <div class="activity">
+                <div class="time">15:30 - 19:00</div>
+                <div class="activity-content">
+                    <div class="activity-title">🎡 Tivoli Gardens</div>
+                    <div class="activity-details">Decorado de Navidad, luces, tiendas y atracciones</div>
+                </div>
+            </div>
+
+            <div class="activity">
+                <div class="time">21:00</div>
+                <div class="activity-content">
+                    <div class="activity-title">🍷 Cena en Tivoli</div>
+                    <div class="activity-details">Fru Nimb o Grøften</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- DÍA 4 -->
+        <div class="day-card">
+            <div class="day-header">
+                <div class="day-number">4</div>
+                <div class="day-title">
+                    <h2>Lunes 23 Diciembre</h2>
+                    <div class="day-subtitle">🌉 Barrios alternativos y vistas</div>
+                </div>
+            </div>
+
+            <div class="activity">
+                <div class="time">9:00 - 10:00</div>
+                <div class="activity-content">
+                    <div class="activity-title">☕ Desayuno</div>
+                    <div class="activity-details">Desayuno y metro hacia Christianshavn</div>
+                </div>
+            </div>
+
+            <div class="activity">
+                <div class="time">10:00 - 11:30</div>
+                <div class="activity-content">
+                    <div class="activity-title">🌟 Iglesia de Nuestro Salvador</div>
+                    <div class="activity-details">Subida a la torre en espiral con vistas increíbles</div>
+                </div>
+            </div>
+
+            <div class="activity">
+                <div class="time">11:30 - 13:00</div>
+                <div class="activity-content">
+                    <div class="activity-title">🎨 Christiania</div>
+                    <div class="activity-details">Paseo por la ciudad libre, arte y grafitis</div>
+                </div>
+            </div>
+
+            <div class="activity">
+                <div class="time">13:00 - 15:00</div>
+                <div class="activity-content">
+                    <div class="activity-title">🍽️ Almuerzo</div>
+                    <div class="activity-details">Loppen o Café Månefiskeren</div>
+                </div>
+            </div>
+
+            <div class="activity">
+                <div class="time">15:30 - 17:30</div>
+                <div class="activity-content">
+                    <div class="activity-title">🏘️ Barrio de Nørrebro</div>
+                    <div class="activity-details">Tiendas, cafés y cementerio de Assistens (donde está H.C. Andersen)</div>
+                </div>
+            </div>
+
+            <div class="activity">
+                <div class="time">17:30 - 19:30</div>
+                <div class="activity-content">
+                    <div class="activity-title">🛍️ Torvehallerne</div>
+                    <div class="activity-details">Últimas compras en el mercado gourmet</div>
+                </div>
+            </div>
+
+            <div class="activity">
+                <div class="time">21:00</div>
+                <div class="activity-content">
+                    <div class="activity-title">🍷 Cena de despedida</div>
+                    <div class="activity-details">Kødbyens Fiskebar (zona Meatpacking District, muy animada)</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- DÍA 5 -->
+        <div class="day-card">
+            <div class="day-header">
+                <div class="day-number">5</div>
+                <div class="day-title">
+                    <h2>Martes 24 Diciembre</h2>
+                    <div class="day-subtitle">🧳 Regreso</div>
+                </div>
+            </div>
+
+            <div class="activity">
+                <div class="time">07:00</div>
+                <div class="activity-content">
+                    <div class="activity-title">✈️ Salida</div>
+                    <div class="activity-details">Traslado temprano al aeropuerto</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-emoji">🎄 ✨ 🎅</div>
+            <p>¡Disfruta de tu viaje a Copenhague!</p>
+            <p style="margin-top: 0.5rem; font-size: 0.9rem;">God jul og godt nytår! 🇩🇰</p>
+        </div>
+    </footer>
+
+    <script>
+        function createSnowflake() {
+            const snowflake = document.createElement('div');
+            snowflake.classList.add('snowflake');
+            snowflake.innerHTML = '❅';
+            snowflake.style.left = Math.random() * 100 + 'vw';
+            snowflake.style.animationDuration = Math.random() * 3 + 5 + 's';
+            snowflake.style.opacity = Math.random() * 0.6 + 0.3;
+            snowflake.style.fontSize = Math.random() * 10 + 10 + 'px';
+            
+            document.body.appendChild(snowflake);
+            
+            setTimeout(() => {
+                snowflake.remove();
+            }, 8000);
+        }
+
+        setInterval(createSnowflake, 300);
+
+        const dayCards = document.querySelectorAll('.day-card');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, { threshold: 0.1 });
+
+        dayCards.forEach(card => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(20px)';
+            card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(card);
+        });
+    </script>
+</body>
+</html>
